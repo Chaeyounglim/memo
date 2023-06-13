@@ -4,11 +4,29 @@ import com.sparta.memo.dto.MemoRequestDto;
 import com.sparta.memo.dto.MemoResponseDto;
 import com.sparta.memo.entity.Memo;
 import com.sparta.memo.repository.MemoRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class MemoService {
     // 비즈니스 로직 수정이 필요한 경우엔 Service
 
+
+    // 필드를 통한 주입 방법
+    /*    @Autowired
+    private MemoRepository memoRepository;*/
+
+    // 메서드를 통한 주입 방법
+    /*
+    private MemoRepository memoRepository;
+
+    @Autowired
+    public void setDi(MemoRepository memoRepository) {
+        this.memoRepository = memoRepository;
+    }*/
+
+    // 생성자를 통한 주입 방법
     private final MemoRepository memoRepository;
 
     public MemoService(MemoRepository memoRepository) {
