@@ -11,14 +11,14 @@ import java.util.*;
 @RequestMapping("/api")
 public class MemoController {
 
-    private final Map<Long,Memo> memoList =new HashMap<>();
+    private final Map<Long, Memo> memoList = new HashMap<>();
     // Long 타입의 id값을 넣을 예정.
     // DB 역할을 한다고 생각.
 
     @PostMapping("/memos")
-    public MemoResponseDto createMemo(@RequestBody MemoRequestDto RequestDto){
+    public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto) {
         // RequestDto -> Entity
-        Memo memo = new Memo(RequestDto);
+        Memo memo = new Memo(requestDto);
 
         // Memo Max Id check
         Long maxId = memoList.size() > 0 ? Collections.max(memoList.keySet()) + 1 : 1;
@@ -43,6 +43,33 @@ public class MemoController {
         // MemoResponseDto::new 를 하면 MemoResponseDto 객체에 생성자를 호출
 
         return responseList;
+    }
 
+    @PutMapping("/memos/{id}")
+    public Long updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
+        // HTTP body로 부터 JSON 데이터를 받아옴.
+        // 해당 메모가 db에 존재하는지 확인
+        if (memoList.containsKey(id)) {
+            // 해담 메모 가져오기
+            Memo memo = memoList.get(id);
+
+            // memo 수정
+            memo.update(requestDto);
+            return memo.getId();
+        } else {
+            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
+        }// if~else() of the end
+    }
+
+    @DeleteMapping("/memos/{id}")
+    public Long deleteMemo(@PathVariable Long id) {
+        // 해당 메모가 DB에 존재하는지 확인
+        if (memoList.containsKey(id)) {
+            // 해당 메모 삭제
+            memoList.remove(id);
+            return id;
+        } else {
+            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
+        }// if~else() of the end
     }
 }
