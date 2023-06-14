@@ -87,6 +87,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@ResponseBody
 public class MemoController {
     // Data를 전달해오는 방식이 변경된 경우에는 Controller
 
@@ -116,5 +117,10 @@ public class MemoController {
         return memoService.deleteMemo(id);
     }
 
+    @GetMapping("/memos/contents")
+    public List<MemoResponseDto> getMemosByKeyword(String keyword) {
+        System.out.println(keyword);
+        return memoService.getMemosByKeyword(keyword);
+    }
 
 }

@@ -66,4 +66,14 @@ public class MemoService {
     }
 
 
+    public List<MemoResponseDto> getMemosByKeyword(String keyword) {
+
+/*        // Like 사용
+        keyword = "%"+ keyword + "%";
+        return memoRepository.findAllByContentsLikeOrderByModifiedAtDesc(keyword).stream().map(MemoResponseDto::new).toList();
+        */
+
+        // Contains 사용
+        return memoRepository.findAllByContentsContainsOrderByModifiedAtDesc(keyword).stream().map(MemoResponseDto::new).toList();
+    }
 }
